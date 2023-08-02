@@ -26,7 +26,7 @@ interface Propertys {
 }
 
 interface Props{
-  properties: Propertys[]
+  properties?: Propertys[]
 }
 
 const Property: React.FC<Props> = ({ properties }) => {
@@ -40,7 +40,7 @@ const Property: React.FC<Props> = ({ properties }) => {
         Find your next place to live
       </h3>
       <div className="w-full flex flex-row sm:grid sm:grid-cols-2 md:flex md:flex-row justify-center items-center gap-9 flex-wrap ">
-        {properties.length === 0 ? (
+        {properties?.length === 0 ? (
           <>
             <SkeletonTheme>
               <p>
@@ -101,7 +101,7 @@ const Property: React.FC<Props> = ({ properties }) => {
           </>
         ) : (
           <>
-            {properties.map((value, index) => {
+            {properties?.map((value, index) => {
               const imageUrl = value.images?.[0];
               return (
                 <Card

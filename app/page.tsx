@@ -10,7 +10,7 @@ const Landing = () => {
       className={` ${greatVibes} flex min-h-screen flex-col  items-center gap-20 w-full `}
     >
       <Banner />
-      <Property />
+      <Property  />
       <Newsletter />
     </main>
   );
