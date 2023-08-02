@@ -2,7 +2,9 @@ import Image from "next/image";
 import React from "react";
 
 interface SubImage {
-  image: string;
+  image: {
+    link: string;
+  };
   alt: string;
 }
 

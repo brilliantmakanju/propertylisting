@@ -308,11 +308,11 @@ const ProertyView = () => {
                 <PropertyImage image={images[0]} />
                 <div className="flex justify-start w-full overflow-x-scroll pb-6 md:overflow-hidden scroll-m-0 items-start gap-5 ">
                   {images.map((value, index) => {
-                    console.log(value);
+                    // console.log(value);
                     return (
                       <PropertySubImage
                         key={index}
-                        alt={"Maldon"}
+                        alt={name}
                         image={value}
                       />
                       // <></>
