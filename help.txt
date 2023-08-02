@@ -1,0 +1,351 @@
+#1B00EA
+
+
+
+
+
+
+
+
+
+"use client";
+import {
+  FaLocationCrosshairs,
+  FaHouseChimney,
+  FaSignature,
+  FaTrash,
+  FaPenToSquare,
+  FaRestroom,
+} from "react-icons/fa6";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { ToastContainer } from "react-toast";
+import Header from "@/components/Header";
+import Links from "@/components/Link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toast";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+
+interface Propertys {
+  id: string;
+  name: string;
+  type: string;
+  city: string;
+  price: string;
+  state: string;
+  image: string;
+  street: string;
+  status: string;
+  postcode: string;
+  garageNo: string;
+  bedroomNo: string;
+  apartment: string;
+  bathroomNo: string;
+  squaremeter: string;
+  descriptions: string;
+  imageType1: string;
+}
+
+type Repo = {
+  id: string;
+  name: string;
+  type: string;
+  city: string;
+  price: string;
+  state: string;
+  image: string;
+  street: string;
+  status: string;
+  postcode: string;
+  garageNo: string;
+  bedroomNo: string;
+  apartment: string;
+  bathroomNo: string;
+  squaremeter: string;
+  descriptions: string;
+  imageType1: string;
+};
+
+export const getServerSideProps: GetServerSideProps<{
+  repo: Repo;
+}> = async () => {
+  const res = await fetch("/api/list");
+  const repo = await res.json();
+  return { props: { repo } };
+};
+
+export default function Home({
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [property, setList] = useState<Propertys[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // async function list() {
+  //   const res = await fetch("/api/list", { cache: "no-store" });
+  //   const resp = await fetch("/api/list", { next: { revalidate: 5 } });
+  //   const resss = await resp.json();
+  //   // console.log(resss.listin)
+  //   setList(resss.listing);
+  //   setLoading(false);
+  // }
+
+  async function deleteProperty(id: string) {
+    try {
+      await axios.post("/api/delete", {
+        id,
+      });
+      const res = await axios.get("/api/list");
+      setList(res.data.listing);
+      toast.success("Property Listing Deleted");
+    } catch (error) {
+      console.log(error);
+      toast.error("Sorry, an Error Occured please Try again");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // useEffect(() => {
+  //   list();
+  // }, []);
+
+  return (
+    <>
+      <ToastContainer />
+      <main className="flex min-h-screen flex-col  items-center gap-10 p-5  md:p-24 md:pt-10 ">
+        {loading ? (
+          <>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+            <div className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 h-auto py-6 items-start gap-4">
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <span>
+                      <Skeleton />
+                    </span>
+                  </div>
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-3 gap-4 my-1  " />
+                </span>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  <Skeleton className="py-32 gap-4 my-1  " />
+                </span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+        {property.map((value, index) => {
+          return (
+            <div
+              key={index}
+              className="flex bg-[#747471ad] text-[#efeeee] flex-col rounded-md w-full md:w-[40em] lg:w-[50em] p-5 py-6 items-start gap-4"
+            >
+              <div className="flex flex-col w-full justify-start items-start gap-2 ">
+                <div className="flex w-full pr-10 justify-between items-center gap-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <Header
+                      title={value.name}
+                      style="text-[22px] md:text-[25px] "
+                    />
+                    <FaSignature className="text-[22px] md:text-[25px] lg:text-[28px] " />
+                  </div>
+                  <div className="flex justify-start items-center gap-9">
+                    <button onClick={() => deleteProperty(value.id)}>
+                      <FaTrash className="text-[25px] text-red-700 " />
+                    </button>
+                    {/* cl */}
+                  </div>
+                </div>
+                <div className="flex justify-start items-center gap-2 ">
+                  <FaLocationCrosshairs className="text-[20px]" />{" "}
+                  <Header
+                    title={`State: ${value.state}, Street: ${value.street}, Apartment: ${value.apartment}`}
+                  />
+                </div>
+                <div className="flex justify-start items-center gap-2">
+                  <FaHouseChimney className="text-[20px]" />
+                  <Header
+                    title={`Property Type: ${value.type}, Status: ${value.status}, Price: ${value.price}$`}
+                  />
+                </div>
+                <div className="flex justify-start items-center gap-2">
+                  <FaRestroom className="text-[20px]" />
+                  <Header
+                    title={`Bathroom: ${value.bathroomNo}, Bedroom: ${value.bedroomNo}, Garage: ${value.garageNo}`}
+                  />
+                </div>
+                <span className="break-words whitespace-pre-wrap w-full p-2 ">
+                  {value.descriptions}
+                </span>
+              </div>
+              <div className="flex sm:grid sm:grid-cols-2 md:flex justify-start w-full p-3 flex-wrap items-center gap-4">
+                <div className="flex justify-start flex-col  items-center gap-2">
+                  <div className="relative  rounded-md h-[200px] w-[229.5px] sm:h-[200px] sm:w-[270px] md:h-[170px] md:w-[170px] overflow-hidden">
+                    <Image
+                      fill
+                      alt={`${value?.name}`}
+                      src={`${value?.image}`}
+                      className="absolute left-0 top-0 object-cover"
+                    />
+                  </div>
+                  <span>{value.imageType1}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </main>
+    </>
+  );
+}
