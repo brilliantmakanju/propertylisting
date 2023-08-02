@@ -1,8 +1,9 @@
-"use client";
+// "use client";
 import Card from "./Property/Card";
 import { greatVibes } from "@/public/font";
+import { GetServerSideProps } from "next";
 import { Pagination } from "../Pagination";
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -24,23 +25,12 @@ interface Propertys {
   descriptions: string;
 }
 
-const Property = () => {
-  const [property, setList] = useState<Propertys[]>([]);
-  const [loading, setLoading] = useState(true);
+interface Props{
+  properties: Propertys[]
+}
 
-  const propertysList = async () => {
-    const res = await fetch("/api/list", { cache: "no-store" });
-    const resp = await fetch("/api/list", { next: { revalidate: 5 } });
-    const resss = await resp.json();
-    // console.log(resss.listing)
+const Property: React.FC<Props> = ({ properties }) => {
 
-    setList(resss.listing);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    propertysList();
-  }, []);
 
   return (
     <section className="flex justify-start py-20 lg:px-5 flex-col  items-start gap-10 w-[100%] h-full  ">
@@ -50,7 +40,7 @@ const Property = () => {
         Find your next place to live
       </h3>
       <div className="w-full flex flex-row sm:grid sm:grid-cols-2 md:flex md:flex-row justify-center items-center gap-9 flex-wrap ">
-        {loading ? (
+        {properties.length === 0 ? (
           <>
             <SkeletonTheme>
               <p>
@@ -111,7 +101,7 @@ const Property = () => {
           </>
         ) : (
           <>
-            {property.map((value, index) => {
+            {properties.map((value, index) => {
               const imageUrl = value.images?.[0];
               return (
                 <Card
@@ -137,4 +127,30 @@ const Property = () => {
   );
 };
 
+
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  try {
+    const resp = await fetch("/api/list");
+      const properties: Propertys[] = await resp.json()
+
+    return {
+      props: {
+        properties,
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching property listings:', error);
+
+    return {
+      props: {
+        properties: [],
+      },
+    };
+  }
+};
+
 export default Property;
+
+
+
+
